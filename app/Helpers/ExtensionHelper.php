@@ -441,7 +441,10 @@ class ExtensionHelper
         foreach ((array) ($definition['groups'] ?? []) as $group) {
             if (is_string($group) && preg_match(self::MIDDLEWARE_GROUP_PATTERN, $group) === 1) {
                 $groups[] = $group;
+                continue;
             }
+
+            self::warnInvalidMiddleware($extensionClass, sprintf('Invalid middleware group [%s].', is_string($group) ? $group : gettype($group)));
         }
 
         $position = (($definition['position'] ?? 'append') === 'prepend') ? 'prepend' : 'append';
